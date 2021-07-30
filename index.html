@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks app</title>
+</head>
+<body>
+    <div id='main'></div>
+    <script>
+        
+        const bodytag=document.body
+        const h1tag=document.createElement('h1')
+        h1tag.textContent="Task app"
+        bodytag.appendChild(h1tag)
+
+        const searchtag=document.createElement('input')
+        searchtag.setAttribute('type','text')
+        searchtag.setAttribute('name','search')
+        searchtag.setAttribute('placeholder','Enter task name')
+        bodytag.appendChild(searchtag)
+
+        const h2tag=document.createElement('h1')
+        h2tag.textContent="My tasks-0"
+        bodytag.append(h2tag)
+        
+        let c=0
+        const list=document.createElement('ul')
+        searchtag.addEventListener('change',function(e){
+            c++
+            let m=e.target.value
+            localStorage.setItem(`target${c}`,`${e.target.value}`)
+            e.target.value=''
+            ligenerator(m)
+           
+        })
+
+        const ligenerator=(m)=>{
+             //create element
+            const litag=document.createElement('li')
+            litag.textContent=m
+            list.appendChild(litag)
+            h2tag.textContent=`My tasks-${localStorage.length}`
+            removelist(litag)
+            console.log(localStorage)
+            
+            bodytag.appendChild(list)
+
+        }
+        const removelist=(litag)=>{
+            //remove element
+            litag.addEventListener('click',function(){
+                litag.remove()
+                let d=0
+                for(let i in localStorage){
+                    if(localStorage[i]===litag.innerHTML){
+                        d=i
+                    }
+                }
+                localStorage.removeItem(`${d}`)
+                h2tag.textContent=`My tasks-${localStorage.length}`
+                console.log(localStorage)
+            })
+        }
+        for(let i in localStorage){
+            if(i.includes('target')){
+                ligenerator(localStorage[i])
+            }
+        }
+    </script>
+    
+</body>
+</html>
